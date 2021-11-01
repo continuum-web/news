@@ -4,7 +4,6 @@ const { formatDataForEntry } = require('../utils');
 
 const seed = async data => {
 	const { articleData, commentData, topicData, userData } = data;
-	// 1. create tables
 
 	const qsTopicTable = `
   CREATE TABLE topics (
@@ -92,9 +91,9 @@ const seed = async data => {
 			);
 			return db.query(queryStr);
 		})
-		.then(({ rows }) => {
-			//console.log(rows);
-		})
+		// .then(({ rows }) => {
+		// 	//console.log(rows);
+		// })
 		.catch(error => {
 			console.error(error);
 		});

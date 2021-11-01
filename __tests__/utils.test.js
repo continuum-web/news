@@ -1,12 +1,13 @@
 const db = require('../db/connection.js');
+
 const {
 	articleData,
 	commentData,
 	topicData,
 	userData,
 } = require('../db/data/test-data/index.js');
-const testData = require('../db/data/test-data')
-const  seed  = require('../db/seeds/seed.js');
+const testData = require('../db/data/test-data');
+const seed = require('../db/seeds/seed.js');
 const { formatDataForEntry } = require('../db/utils');
 
 beforeEach(() => seed(testData));
@@ -151,8 +152,8 @@ describe('tests the format utility function', () => {
 		// 		],
 		// 	];
 		// 	expect(formatDataForEntry(articleData)).toEqual(output);
-        // });
-        // it('should return the array comment data in the array in array format', () => {
+		// });
+		// it('should return the array comment data in the array in array format', () => {
 		// 	const output = [
 		// 		[
 		// 			"Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
@@ -282,17 +283,16 @@ describe('tests the format utility function', () => {
 		// 		],
 		// 	];
 		// 	expect(formatDataForEntry(commentData)).toEqual(output);
-        // });
-        it('should return the array topic data in the array in array format', () => {
+		// });
+		it('should return the array topic data in the array in array format', () => {
 			const output = [
 				['The man, the Mitch, the legend', 'mitch'],
 				['Not dogs', 'cats'],
 				['what books are made of', 'paper'],
 			];
-;
 			expect(formatDataForEntry(topicData)).toEqual(output);
-        });
-        it('should return the array user data in the array in array format', () => {
+		});
+		it('should return the array user data in the array in array format', () => {
 			const output = [
 				[
 					'butter_bridge',
@@ -316,6 +316,36 @@ describe('tests the format utility function', () => {
 				],
 			];
 			expect(formatDataForEntry(userData)).toEqual(output);
+		});
+	});
+});
+describe.only('these tests are for the integrity of the database', () => {
+	describe('formatting for each table', () => {
+		it('should return a properly formatted set of rows for topics', () => {
+			return db.query('SELECT * FROM topics').then(({ rows }) => {
+				rows.forEach(row => {
+					expect(row).toEqual(
+						expect.objectContaining({
+							slug: expect.any(String),
+							description: expect.any(String),
+						})
+					);
+				});
+			});
+		});
+		it('should return a properly formatted set of rows for users', () => {
+			return db.query('SELECT * FROM users').then(({ rows }) => {
+				rows.forEach(row => {
+					console.log(row);
+					expect(row).toEqual(
+						expect.objectContaining({
+							username: expect.any(String),
+							avatar_url: expect.any(String),
+							name: expect.any(String),
+						})
+					);
+				});
+			});
 		});
 	});
 });

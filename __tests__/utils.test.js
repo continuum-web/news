@@ -5,10 +5,11 @@ const {
 	topicData,
 	userData,
 } = require('../db/data/test-data/index.js');
-const { seed } = require('../db/seeds/seed.js');
+const testData = require('../db/data/test-data')
+const  seed  = require('../db/seeds/seed.js');
 const { formatDataForEntry } = require('../db/utils');
 
-// beforeEach(() => seed(testData));
+beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe('tests the format utility function', () => {

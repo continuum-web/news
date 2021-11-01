@@ -1,8 +1,0 @@
-## STEP 1
- - create a function to join relevant data
-    - article.topic to topic.slug
-    - article.author to user.username
-    - comment.author to users.username
-    - comment.article_id to article.article_id
-
- - write a util function to format the data

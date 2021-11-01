@@ -14,7 +14,7 @@ const seed = async data => {
 	const qsUserTable = `CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
     avatar_url TEXT,
-    name VARCHAR(40)
+    name VARCHAR
   );`;
 
 	const qsArticleTable = `CREATE TABLE articles (
@@ -57,18 +57,29 @@ const seed = async data => {
 		})
 		.then(() => {
 			return db.query(qsCommentTable);
-    }).then(() => {
-      const formattedData = formatDataForEntry(topicData)
-      const queryStr = format(`INSERT INTO topics (slug, description) VALUES %L RETURNING *`, formattedData)
-      return db.query(queryStr)
-    }).then(
-      ({ rows }) => {console.log(rows)}
-    )
-    .catch(error => {
-      console.error(error)
-    });
-
-	
+		})
+		.then(() => {
+			const formattedData = formatDataForEntry(topicData);
+			const queryStr = format(
+				`INSERT INTO topics (slug, description) VALUES %L RETURNING *`,
+				formattedData
+			);
+			return db.query(queryStr);
+		})
+		.then(() => {
+			const formattedData = formatDataForEntry(userData);
+			const queryStr = format(
+				`INSERT INTO users (username, avatar_url, name) VALUES %L RETURNING *`,
+				formattedData
+			);
+			return db.query(queryStr);
+		})
+		.then(({ rows }) => {
+			console.log(rows);
+		})
+		.catch(error => {
+			console.error(error);
+		});
 };
 
 module.exports = seed;

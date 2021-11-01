@@ -347,5 +347,38 @@ describe.only('these tests are for the integrity of the database', () => {
 				});
 			});
 		});
+		it('should return a properly formatted set of rows for articles', () => {
+			return db.query('SELECT * FROM articles').then(({ rows }) => {
+				rows.forEach(row => {
+					expect(row).toEqual(
+						expect.objectContaining({
+							article_id: expect.any(Number),
+							author: expect.any(String),
+							body: expect.any(String),
+							created_at: expect.anything(),
+							title: expect.any(String),
+							topic: expect.any(String),
+							votes: expect.any(Number),
+						})
+					);
+				});
+			});
+		});
+		it('should return a properly formatted set of rows for articles', () => {
+			return db.query('SELECT * FROM comments').then(({ rows }) => {
+				rows.forEach(row => {
+					expect(row).toEqual(
+						expect.objectContaining({
+							comment_id: expect.any(Number),
+							author: expect.any(String),
+							article_id: expect.any(Number),
+							votes: expect.any(Number),
+							created_at: expect.anything(),
+							body: expect.any(String),
+						})
+					);
+				});
+			});
+		});
 	});
 });

@@ -76,15 +76,24 @@ const seed = async data => {
 		})
 		.then(() => {
 			const formattedData = formatDataForEntry(articleData);
-		
+
 			const queryStr = format(
 				`INSERT INTO articles (title, topic, author,body, created_at, votes) VALUES %L RETURNING *`,
 				formattedData
 			);
 			return db.query(queryStr);
 		})
+		.then(() => {
+			const formattedData = formatDataForEntry(commentData);
+
+			const queryStr = format(
+				`INSERT INTO comments (body, votes, author, article_id, created_at) VALUES %L RETURNING *`,
+				formattedData
+			);
+			return db.query(queryStr);
+		})
 		.then(({ rows }) => {
-		 console.log(rows);
+			//console.log(rows);
 		})
 		.catch(error => {
 			console.error(error);

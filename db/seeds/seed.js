@@ -69,7 +69,16 @@ const seed = async data => {
 		.then(() => {
 			const formattedData = formatDataForEntry(userData);
 			const queryStr = format(
-				`INSERT INTO users (username, avatar_url, name) VALUES %L RETURNING *`,
+				`INSERT INTO users (username, name, avatar_url) VALUES %L RETURNING *`,
+				formattedData
+			);
+			return db.query(queryStr);
+		})
+		.then(() => {
+			const formattedData = formatDataForEntry(articleData);
+			console.log(formattedData);
+			const queryStr = format(
+				`INSERT INTO articles (title, topic, author,body, created_at, votes) VALUES %L RETURNING *`,
 				formattedData
 			);
 			return db.query(queryStr);

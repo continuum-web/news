@@ -30,3 +30,6 @@
       - articles needs slugs and users
       - comments needs author and article
       so SLUGS, USERS, ARTICLE, COMMENTS✅
+
+### I've got no routes
+

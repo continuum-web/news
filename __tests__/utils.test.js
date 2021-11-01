@@ -151,7 +151,7 @@ describe('tests the format utility function', () => {
 			];
 			expect(formatDataForEntry(articleData)).toEqual(output);
         });
-        it.only('should return the array article data in the array in array format', () => {
+        it('should return the array comment data in the array in array format', () => {
 			const output = [
 				[
 					"Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
@@ -281,6 +281,15 @@ describe('tests the format utility function', () => {
 				],
 			];
 			expect(formatDataForEntry(commentData)).toEqual(output);
+        });
+        it.only('should return the array topic data in the array in array format', () => {
+			const output = [
+				['The man, the Mitch, the legend', 'mitch'],
+				['Not dogs', 'cats'],
+				['what books are made of', 'paper'],
+			];
+;
+			expect(formatDataForEntry(topicData)).toEqual(output);
 		});
 	});
 });

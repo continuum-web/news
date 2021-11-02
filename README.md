@@ -128,7 +128,7 @@ All of your endpoints should send the responses specified below in an **object**
 
 ### Essential Routes
 
-#### **GET /api/topics**
+#### **GET /api/topics**✅
 
 Responds with:
 

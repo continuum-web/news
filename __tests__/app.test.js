@@ -45,7 +45,7 @@ describe('ENDPOINT: GET /api/topics', () => {
 
 describe('ENDPOINT: GET /api/articles', () => {
 	describe('happy Path', () => {
-		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			return request(app)
 				.get('/api/articles')
 				.expect(200)
@@ -63,7 +63,8 @@ describe('ENDPOINT: GET /api/articles', () => {
 								votes: expect.any(Number),
 								topic: expect.any(String),
 								author: expect.any(String),
-								created_at: expect.anything(),
+                                created_at: expect.anything(),
+                                comment_count: expect.any(Number)
 							})
 						);
 					});
@@ -74,13 +75,13 @@ describe('ENDPOINT: GET /api/articles', () => {
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
-		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			const articleRequired = 1;
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
-				.then(({ body }) => {
-					//console.log(body);
+                .then(({ body } ) => {
+					console.log(`THIS IS THE BODY`, body);
 					const articles = body.articles;
 					expect(articles).toEqual([
 						{
@@ -90,7 +91,8 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 							votes: 100,
 							topic: 'mitch',
 							author: 'butter_bridge',
-							created_at: '2020-07-09T20:11:00.000Z',
+                            created_at: '2020-07-09T20:11:00.000Z',
+                            comment_count: 11
 						},
 					]);
 				});

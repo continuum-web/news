@@ -37,7 +37,7 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ## Available Routes
 
-### GET `/api/topics`
+### GET `/api/topics`✅
 
 -
 
@@ -47,8 +47,8 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/api/articles/:article_id`
 
-- Bad `article_id` (e.g. `/dog`)
-- Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)
+- Bad `article_id` (e.g. `/dog`)✅
+- Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)✅
 
 ### PATCH `/api/articles/:article_id`
 
@@ -60,7 +60,7 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 -
 
-### GET `/api/articles/:article_id/comments`
+### GET `/api/articles/:article_id/comments`✅
 
 -
 

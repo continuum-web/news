@@ -14,7 +14,7 @@ describe('Tests the core routes of the app', () => {
 			.expect(200)
 			.then(({ body }) => {
 				const msg = body.msg;
-				console.log(msg);
+				//console.log(msg);
 				expect(msg).toEqual('Welcome to the API');
 			});
 	});
@@ -42,14 +42,14 @@ describe('ENDPOINT: GET /api/topics', () => {
 	});
 });
 
-describe.only('ENDPOINT: GET GET /api/articles', () => {
+describe('ENDPOINT: GET /api/articles', () => {
 	describe('happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			return request(app)
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body }) => {
-					console.log(body);
+					//console.log(body);
 					const articles = body.articles;
 
 					articles.forEach(article => {
@@ -70,3 +70,31 @@ describe.only('ENDPOINT: GET GET /api/articles', () => {
 		});
 	});
 });
+
+describe.only('ENDPOINT: GET /api/articles/:article_id', () => {
+	describe('happy Path', () => {
+        it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+            const articleRequired = 1
+			return request(app)
+				.get('/api/articles/1')
+				.expect(200)
+				.then(({ body }) => {
+					//console.log(body);
+                    const articles = body.articles;
+                    expect(articles).toEqual([
+						{
+							article_id: 1,
+							title: 'Living in the shadow of a great man',
+							body: 'I find this existence challenging',
+							votes: 100,
+							topic: 'mitch',
+							author: 'butter_bridge',
+							created_at: '2020-07-09T20:11:00.000Z',
+						},
+					]);
+					
+				});
+		});
+	});
+});
+

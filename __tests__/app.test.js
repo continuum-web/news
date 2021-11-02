@@ -96,7 +96,7 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 		});
 	});
 });
-describe.only('SAD PATH, tests GET /api/articles/:article_id', () => {
+describe('SAD PATH, tests GET /api/articles/:article_id', () => {
 	it('should test for incorrect article id example not an INT', () => {
 		const article_id = 'NotAnInt';
 		return request(app)
@@ -106,5 +106,15 @@ describe.only('SAD PATH, tests GET /api/articles/:article_id', () => {
 				const msg = body.msg;
 				expect(msg).toEqual('invalid data type');
 			});
-	});
+    });
+    it.only('STATUS 404: should check for a number but handle if its NOT in the db', () => {
+        const article_id = '9999';
+		return request(app)
+			.get(`/api/articles/${article_id}`)
+			.expect(404)
+			.then(({ body }) => {
+				const msg = body.msg;
+				expect(msg).toEqual('not found');
+			});
+    });
 });

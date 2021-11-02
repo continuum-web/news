@@ -19,6 +19,7 @@ describe('Tests the core routes of the app', () => {
 			});
 	});
 });
+
 describe('ENDPOINT: GET /api/topics', () => {
 	describe('happy path:', () => {
 		it('should receive the status of 200 with the rows of the database', () => {
@@ -96,6 +97,38 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 		});
 	});
 });
+
+describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
+	describe('happy Path', () => {
+		it('STATUS: 200, it receive a 200 status and a rows from the comments table ', () => {
+			const articleRequired = 1;
+			return request(app)
+				.get(`/api/articles/${articleRequired}/comments`)
+				.expect(200)
+				.then(({ body }) => {
+                    const comments = body.comments;
+                    //console.log(comments)
+                    comments.forEach((comment) => {
+                        expect(comment).toEqual(
+						
+								expect.objectContaining({
+									article_id: expect.any(Number),
+									title: expect.any(String),
+									body: expect.any(String),
+									votes: expect.any(Number),
+									topic: expect.any(String),
+									author: expect.any(String),
+                                    created_at: expect.anything(),
+                                    comment_id: expect.any(Number)
+								})
+							
+						);
+                    })
+				});
+		});
+	});
+});
+
 describe('SAD PATH, tests GET /api/articles/:article_id', () => {
 	it('should test for incorrect article id example not an INT', () => {
 		const article_id = 'NotAnInt';
@@ -106,9 +139,9 @@ describe('SAD PATH, tests GET /api/articles/:article_id', () => {
 				const msg = body.msg;
 				expect(msg).toEqual('invalid data type');
 			});
-    });
-    it.only('STATUS 404: should check for a number but handle if its NOT in the db', () => {
-        const article_id = '9999';
+	});
+	it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
+		const article_id = '9999';
 		return request(app)
 			.get(`/api/articles/${article_id}`)
 			.expect(404)
@@ -116,5 +149,5 @@ describe('SAD PATH, tests GET /api/articles/:article_id', () => {
 				const msg = body.msg;
 				expect(msg).toEqual('not found');
 			});
-    });
+	});
 });

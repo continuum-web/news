@@ -19,3 +19,27 @@ describe('Tests the core routes of the app', () => {
     })
 
 })
+describe.only('ENDPOINT: GET /api/topics', () => {
+    describe('happy path:', () => {
+        it('should receive the status of 200 with the rows of the database', () => {
+            return request(app)
+				.get('/api/topics')
+				.expect(200)
+                .then(({ body }) => {
+					expect(body.topics).toEqual([
+						{
+							slug: 'mitch',
+							description: 'The man, the Mitch, the legend',
+						},
+						{ slug: 'cats', description: 'Not dogs' },
+						{
+							slug: 'paper',
+							description: 'what books are made of',
+						},
+					]);
+				});
+        })
+    })
+    
+
+})

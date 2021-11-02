@@ -95,10 +95,32 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 					]);
 				});
 		});
+    });
+    describe('SAD PATH, tests GET /api/articles/:article_id', () => {
+		it('should test for incorrect article id example not an INT', () => {
+			const article_id = 'NotAnInt';
+			return request(app)
+				.get(`/api/articles/${article_id}`)
+				.expect(400)
+				.then(({ body }) => {
+					const msg = body.msg;
+					expect(msg).toEqual('invalid data type');
+				});
+		});
+		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
+			const article_id = '9999';
+			return request(app)
+				.get(`/api/articles/${article_id}`)
+				.expect(404)
+				.then(({ body }) => {
+					const msg = body.msg;
+					expect(msg).toEqual('not found');
+				});
+		});
 	});
 });
 
-describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
+describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 	describe('happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the comments table ', () => {
 			const articleRequired = 1;
@@ -129,25 +151,3 @@ describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 	});
 });
 
-describe('SAD PATH, tests GET /api/articles/:article_id', () => {
-	it('should test for incorrect article id example not an INT', () => {
-		const article_id = 'NotAnInt';
-		return request(app)
-			.get(`/api/articles/${article_id}`)
-			.expect(400)
-			.then(({ body }) => {
-				const msg = body.msg;
-				expect(msg).toEqual('invalid data type');
-			});
-	});
-	it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
-		const article_id = '9999';
-		return request(app)
-			.get(`/api/articles/${article_id}`)
-			.expect(404)
-			.then(({ body }) => {
-				const msg = body.msg;
-				expect(msg).toEqual('not found');
-			});
-	});
-});

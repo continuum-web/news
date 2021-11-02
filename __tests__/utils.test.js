@@ -319,7 +319,7 @@ describe('tests the format utility function', () => {
 		});
 	});
 });
-describe.only('these tests are for the integrity of the database', () => {
+describe('these tests are for the integrity of the database', () => {
 	describe('formatting for each table', () => {
 		it('should return a properly formatted set of rows for topics', () => {
 			return db.query('SELECT * FROM topics').then(({ rows }) => {

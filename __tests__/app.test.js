@@ -71,17 +71,17 @@ describe('ENDPOINT: GET /api/articles', () => {
 	});
 });
 
-describe.only('ENDPOINT: GET /api/articles/:article_id', () => {
+describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
-        it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
-            const articleRequired = 1
+		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+			const articleRequired = 1;
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
 				.then(({ body }) => {
 					//console.log(body);
-                    const articles = body.articles;
-                    expect(articles).toEqual([
+					const articles = body.articles;
+					expect(articles).toEqual([
 						{
 							article_id: 1,
 							title: 'Living in the shadow of a great man',
@@ -92,9 +92,19 @@ describe.only('ENDPOINT: GET /api/articles/:article_id', () => {
 							created_at: '2020-07-09T20:11:00.000Z',
 						},
 					]);
-					
 				});
 		});
 	});
 });
-
+describe.only('SAD PATH, tests GET /api/articles/:article_id', () => {
+	it('should test for incorrect article id example not an INT', () => {
+		const article_id = 'NotAnInt';
+		return request(app)
+			.get(`/api/articles/${article_id}`)
+			.expect(400)
+			.then(({ body }) => {
+				const msg = body.msg;
+				expect(msg).toEqual('invalid data type');
+			});
+	});
+});

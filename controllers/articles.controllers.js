@@ -6,5 +6,5 @@ exports.articlesController = (req, res, next) => {
     return selectArticles(article_id).then(({ rows }) => {
         
 		res.status(200).send({ articles: rows });
-	});
+    }).catch(next);
 };

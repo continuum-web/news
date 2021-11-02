@@ -1,8 +1,7 @@
 const articlesRouter = require('express').Router()
+const { articlesController } = require('../controllers/articles.controllers')
 
-articlesRouter.get('/', (req, res) => {
- res.status(404).send("Articles endpoint under construction")
-})
+articlesRouter.get('/', articlesController)
 
 
 

@@ -8,7 +8,7 @@ exports.articlesController = (req, res, next) => {
 			if (article.length === 0) {
 				return Promise.reject({ status: 404, msg: 'not found' });
       } else {
-        console.log(article)
+        
         res.status(200).send({ articles:article });
 			}
 		})

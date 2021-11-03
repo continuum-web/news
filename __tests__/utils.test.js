@@ -336,7 +336,6 @@ describe('these tests are for the integrity of the database', () => {
 		it('should return a properly formatted set of rows for users', () => {
 			return db.query('SELECT * FROM users').then(({ rows }) => {
 				rows.forEach(row => {
-					console.log(row);
 					expect(row).toEqual(
 						expect.objectContaining({
 							username: expect.any(String),

@@ -14,7 +14,7 @@ describe('Tests the core routes of the app', () => {
 			.expect(200)
 			.then(({ body }) => {
 				const msg = body.msg;
-				//console.log(msg);
+				
 				expect(msg).toEqual('Welcome to the API');
 			});
 	});
@@ -50,11 +50,11 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body }) => {
-					//console.log(body);
+					
 					const articles = body.articles;
 
 					articles.forEach(article => {
-						//console.log(article)
+						
 						expect(article).toEqual(
 							expect.objectContaining({
 								article_id: expect.any(Number),
@@ -81,7 +81,7 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				.get('/api/articles/1')
 				.expect(200)
                 .then(({ body } ) => {
-					console.log(`THIS IS THE BODY`, body);
+				
 					const articles = body.articles;
 					expect(articles).toEqual([
 						{
@@ -131,7 +131,7 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				.expect(200)
 				.then(({ body }) => {
                     const comments = body.comments;
-                    //console.log(comments)
+                    
                     comments.forEach((comment) => {
                         expect(comment).toEqual(
 						

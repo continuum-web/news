@@ -13,7 +13,7 @@ exports.formatDataForEntry = data => {
         //return the inner array
 		return dataArray;
 	});
-	// console.log(formattedData);
+	
     //returns the mapped array of arrays
 	return formattedData;
 };

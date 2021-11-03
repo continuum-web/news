@@ -14,7 +14,7 @@ describe('Tests the core routes of the app', () => {
 			.expect(200)
 			.then(({ body }) => {
 				const msg = body.msg;
-				
+
 				expect(msg).toEqual('Welcome to the API');
 			});
 	});
@@ -50,22 +50,21 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body }) => {
-					
-					const articles = body.articles;
-
+					//console.log(body)
+					const articles  = body
 					articles.forEach(article => {
-						
-						expect(article).toEqual(
-							expect.objectContaining({
-								article_id: expect.any(Number),
-								title: expect.any(String),
-								body: expect.any(String),
-								votes: expect.any(Number),
-								topic: expect.any(String),
-								author: expect.any(String),
-                                created_at: expect.anything(),
-                                comment_count: expect.any(Number)
-							})
+					console.log(article)
+							expect(article).toEqual(
+								expect.objectContaining({
+									article_id: expect.any(Number),
+									author: expect.any(String),
+									body: expect.any(String),
+									comment_count: expect.any(String),
+									created_at: expect.anything(),
+									title: expect.any(String),
+									topic: expect.any(String),
+									votes: expect.any(Number),
+								})
 						);
 					});
 				});
@@ -75,15 +74,15 @@ describe('ENDPOINT: GET /api/articles', () => {
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
-		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			const articleRequired = 1;
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
-                .then(({ body } ) => {
-				
-					const articles = body.articles;
-					expect(articles).toEqual([
+				.then(({ body } ) => {
+					console.log(body)
+					
+					expect(body).toEqual([
 						{
 							article_id: 1,
 							title: 'Living in the shadow of a great man',
@@ -91,14 +90,14 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 							votes: 100,
 							topic: 'mitch',
 							author: 'butter_bridge',
-                            created_at: '2020-07-09T20:11:00.000Z',
-                            comment_count: 11
+							created_at: '2020-07-09T20:11:00.000Z',
+							comment_count: '11',
 						},
 					]);
 				});
 		});
-    });
-    describe('SAD PATH, tests GET /api/articles/:article_id', () => {
+	});
+	describe('SAD PATH, tests GET /api/articles/:article_id', () => {
 		it('should test for incorrect article id example not an INT', () => {
 			const article_id = 'NotAnInt';
 			return request(app)
@@ -106,7 +105,7 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('invalid data type');
+					expect(msg).toEqual('invalid data type'); //change to bad req
 				});
 		});
 		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
@@ -130,26 +129,23 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				.get(`/api/articles/${articleRequired}/comments`)
 				.expect(200)
 				.then(({ body }) => {
-                    const comments = body.comments;
-                    
-                    comments.forEach((comment) => {
-                        expect(comment).toEqual(
-						
-								expect.objectContaining({
-									article_id: expect.any(Number),
-									title: expect.any(String),
-									body: expect.any(String),
-									votes: expect.any(Number),
-									topic: expect.any(String),
-									author: expect.any(String),
-                                    created_at: expect.anything(),
-                                    comment_id: expect.any(Number)
-								})
-							
+					const comments = body.comments;
+
+					comments.forEach(comment => {
+						expect(comment).toEqual(
+							expect.objectContaining({
+								article_id: expect.any(Number),
+								title: expect.any(String),
+								body: expect.any(String),
+								votes: expect.any(Number),
+								topic: expect.any(String),
+								author: expect.any(String),
+								created_at: expect.anything(),
+								comment_id: expect.any(Number),
+							})
 						);
-                    })
+					});
 				});
 		});
 	});
 });
-

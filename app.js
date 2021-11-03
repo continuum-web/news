@@ -11,7 +11,7 @@ app.use(handleCustomErrors);
 app.use(handle500s);
 
 app.all('/*', (req, res) => {
-	res.status(404).send({ msg: 'Path Not Found' });
+	res.status(404).send({ msg: 'Not Found' });
 });
 
 module.exports = app;

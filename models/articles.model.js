@@ -28,11 +28,11 @@ exports.patchArticle = (article_id, inc_votes) => {
 	const articleLength = `SELECT * FROM articles`;
 
 	if (article_id > articleLength.length) {
-		return Promise.reject({ status: 404, msg: 'article not found' });
+		return Promise.reject({ status: 404, msg: 'Not Found' });
 	}
 
 	if (typeof inc_votes !== 'number') {
-		return Promise.reject({ status: 400, msg: 'invalid data type' });
+		return Promise.reject({ status: 400, msg: 'Bad Request' });
 	}
 
 	let updateQuery = `UPDATE articles SET votes = votes +$1 WHERE article_id = $2 RETURNING *`;

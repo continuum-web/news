@@ -8,7 +8,7 @@ exports.handleCustomErrors = (err, req, res, next) => {
 exports.handlePSQLErrors = (err, req, res, next) => {
 	console.log("THIS IS AN ERROR ", err)
 	const errorCodes = {
-		'22P02': { status: 400, msg: { msg: 'invalid data type' } },
+		'22P02': { status: 400, msg: { msg: 'Bad Request' } },
 	};
 	if (!err.code) next(err);
 	else {

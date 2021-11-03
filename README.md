@@ -83,7 +83,7 @@ _This is a summary of all the endpoints. More detail about each endpoint is furt
 ```http
 GET /api/topics✅
 GET /api/articles/:article_id✅
-PATCH /api/articles/:article_id
+PATCH /api/articles/:article_id✅
 GET /api/articles✅
 GET /api/articles/:article_id/comments✅
 POST /api/articles/:article_id/comments

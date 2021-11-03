@@ -105,7 +105,7 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('invalid data type'); //change to bad req
+					expect(msg).toEqual('Bad Request'); //change to bad req
 				});
 		});
 		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
@@ -121,8 +121,8 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	});
 });
 
-describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
-	describe.only('Happy Path', () => {
+describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
+	describe('Happy Path', () => {
 		it('should get a response on patching', () => {
 			const body = {
 				inc_votes: 2
@@ -143,6 +143,50 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 					});
 				});
 	});
+	});
+	describe('SAD PATH:', () => {
+		it('should test for incorrect article id example not an INT', () => {
+			const article_id = 'NotAnInt';
+			const body = {
+				inc_votes: 2,
+			};
+			return request(app)
+				.patch(`/api/articles/${article_id}`)
+				.send(body)
+				.expect(400)
+				.then(({ body }) => {
+					const msg = body.msg;
+					expect(msg).toEqual('Bad Request'); 
+				});
+		});
+		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
+			const article_id = '9999';
+			const body = {
+				inc_votes: 2,
+			};
+			return request(app)
+				.patch(`/api/articles/${article_id}`)
+				.send(body)
+				.expect(404)
+					.then(({ body }) => {
+						const msg = body.msg;
+						expect(msg).toEqual('Not Found');
+					})
+		});
+		it('STATUS 400: should check for a if inc_votes is a number', () => {
+			const article_id = '1';
+			const body = {
+				inc_votes: 'NotAnInt',
+			};
+			return request(app)
+				.patch(`/api/articles/${article_id}`)
+				.send(body)
+				.expect(400)
+				.then(({ body }) => {
+					const msg = body.msg;
+					expect(msg).toEqual('Bad Request');
+				});
+		});
 	});
 	
 });

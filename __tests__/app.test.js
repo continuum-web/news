@@ -45,7 +45,7 @@ describe('ENDPOINT: GET /api/topics', () => {
 
 describe('ENDPOINT: GET /api/articles', () => {
 	describe('happy Path', () => {
-		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			return request(app)
 				.get('/api/articles')
 				.expect(200)
@@ -119,6 +119,32 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				});
 		});
 	});
+});
+
+describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
+	describe.only('Happy Path', () => {
+		it('should get a response on patching', () => {
+			const body = {
+				inc_votes: 2
+			}
+			return request(app)
+				.patch('/api/articles/1')
+				.send(body)
+				.expect(202)
+				.then(({ body }) => {
+					expect(body).toEqual({
+						article_id: 1,
+						title: 'Living in the shadow of a great man',
+						body: 'I find this existence challenging',
+						votes: 102,
+						topic: 'mitch',
+						author: 'butter_bridge',
+						created_at: '2020-07-09T20:11:00.000Z',
+					});
+				});
+	});
+	});
+	
 });
 
 describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {

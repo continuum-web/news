@@ -1,4 +1,4 @@
-const { selectArticles, articleComments } = require('../models/articles.model');
+const { selectArticles, articleComments, patchArticle } = require('../models/articles.model');
 
 exports.articlesController = (req, res, next) => {
 	const articles = [];
@@ -30,4 +30,12 @@ exports.articleComments = (req, res, next) => {
 			}
 		})
 		.catch(next);
+};
+
+exports.patchArticle = (req, res, next) => {
+	const { article_id } = req.params
+	const { inc_votes }  = req.body
+	return patchArticle(article_id, inc_votes).then(({ articles}) => {
+		res.status(202).send(articles)
+	}).catch(next)
 };

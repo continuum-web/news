@@ -138,7 +138,7 @@ Responds with:
 
 ---
 
-#### **GET /api/articles/:article_id**
+#### **GET /api/articles/:article_id**✅
 
 Responds with:
 

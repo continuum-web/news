@@ -50,9 +50,9 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body }) => {
-					//console.log(body)
+					
 					const { articles } = body;
-					console.log(articles)
+					
 					articles.forEach(article => {
 						
 						expect(article).toEqual(
@@ -86,10 +86,33 @@ describe('ENDPOINT: GET /api/articles', () => {
 			});
 			
 		});
+		describe('Should allow user to sort ASC or DESC', () => {
+			it('should allow the user to pass through a sort direction defaulting to DESC', () => {
+				return request(app)
+					.get('/api/articles?order=ASC')
+					.expect(200)
+					.then(({ body }) => {
+						const articles = body.articles
+						
+						expect(articles).toBeSortedBy('created_by');
+					}
+					);
+			});
+			it('Tests to allow sorting article_id column', () => {
+				return request(app)
+					.get('/api/articles?sort_by=article_id&order=ASC')
+					.expect(200)
+					.then(({ body }) => {
+						const articles = body.articles
+						
+						expect(articles).toBeSortedBy('votes');
+					});
+			});
+		});
 	});
 	describe('SAD PATH', () => {
 		describe('Should allow queries', () => {
-			it.only('Should get a status 400 bad request when trying to sort by an invalid column', () => {
+			it('Should get a status 400 bad request when trying to sort by an invalid column', () => {
 				return request(app)
 					.get('/api/articles?sort_by=POTATO')
 					.expect(400)
@@ -105,15 +128,14 @@ describe('ENDPOINT: GET /api/articles', () => {
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
-		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			const articleRequired = 1;
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
 				.then(({ body }) => {
-					console.log(body);
-
-					expect(body).toEqual([
+						const article = body.article
+					expect(article).toEqual([
 						{
 							article_id: 1,
 							title: 'Living in the shadow of a great man',
@@ -261,7 +283,7 @@ describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 				.expect(201)
 				.then((data) => {
 					const { comment } = data.body
-					console.log(comment)
+					
 					expect(comment).toEqual({
 						comment_id: 19,
 						author: 'lurker',

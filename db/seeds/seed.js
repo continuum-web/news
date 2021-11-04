@@ -91,9 +91,6 @@ const seed = async data => {
 			);
 			return db.query(queryStr);
 		})
-		// .then(({ rows }) => {
-		// 	//console.log(rows);
-		// })
 		.catch(error => {
 			console.error(error);
 		});

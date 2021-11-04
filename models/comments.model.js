@@ -8,7 +8,7 @@ exports.addCommentById = (article_id, passedBody) => {
 	params.push(username);
 	params.push(body);
 
-	console.log(params);
+
 	const queryStr = `INSERT INTO comments (article_id, author, body)
     VALUES ($1, $2, $3) RETURNING *;`;
 

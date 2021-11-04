@@ -8,7 +8,7 @@ const {
 exports.articlesController = (req, res, next) => {
 	//const articles = [];
 	const { article_id } = req.params;
-	console.log(req.query)
+	
 	const { sort_by } = req.query
 	//calls the selectArticles model to get articles from the database and send them back as a response to the express app.
 	return selectArticles(article_id, sort_by)

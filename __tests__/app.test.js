@@ -51,20 +51,20 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.expect(200)
 				.then(({ body }) => {
 					//console.log(body)
-					const articles  = body
+					const articles = body;
 					articles.forEach(article => {
-					console.log(article)
-							expect(article).toEqual(
-								expect.objectContaining({
-									article_id: expect.any(Number),
-									author: expect.any(String),
-									body: expect.any(String),
-									comment_count: expect.any(String),
-									created_at: expect.anything(),
-									title: expect.any(String),
-									topic: expect.any(String),
-									votes: expect.any(Number),
-								})
+						console.log(article);
+						expect(article).toEqual(
+							expect.objectContaining({
+								article_id: expect.any(Number),
+								author: expect.any(String),
+								body: expect.any(String),
+								comment_count: expect.any(String),
+								created_at: expect.anything(),
+								title: expect.any(String),
+								topic: expect.any(String),
+								votes: expect.any(Number),
+							})
 						);
 					});
 				});
@@ -79,9 +79,9 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
-				.then(({ body } ) => {
-					console.log(body)
-					
+				.then(({ body }) => {
+					console.log(body);
+
 					expect(body).toEqual([
 						{
 							article_id: 1,
@@ -121,12 +121,12 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	});
 });
 
-describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
+describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 	describe('Happy Path', () => {
 		it('should get a response on patching', () => {
 			const body = {
-				inc_votes: 2
-			}
+				inc_votes: 2,
+			};
 			return request(app)
 				.patch('/api/articles/1')
 				.send(body)
@@ -142,7 +142,7 @@ describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
 						created_at: '2020-07-09T20:11:00.000Z',
 					});
 				});
-	});
+		});
 	});
 	describe('SAD PATH:', () => {
 		it('should test for incorrect article id example not an INT', () => {
@@ -156,7 +156,7 @@ describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('Bad Request'); 
+					expect(msg).toEqual('Bad Request');
 				});
 		});
 		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
@@ -168,10 +168,10 @@ describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
 				.patch(`/api/articles/${article_id}`)
 				.send(body)
 				.expect(404)
-					.then(({ body }) => {
-						const msg = body.msg;
-						expect(msg).toEqual('Not Found');
-					})
+				.then(({ body }) => {
+					const msg = body.msg;
+					expect(msg).toEqual('Not Found');
+				});
 		});
 		it('STATUS 400: should check for a if inc_votes is a number', () => {
 			const article_id = '1';
@@ -188,7 +188,6 @@ describe.only('ENDPOINT: PATCH /api/articles/:article_id', () => {
 				});
 		});
 	});
-	
 });
 
 describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
@@ -214,6 +213,31 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 								comment_id: expect.any(Number),
 							})
 						);
+					});
+				});
+		});
+	});
+});
+
+describe.only('ENDPOINT: POST /api/articles/:article_id/comments', () => {
+	describe('HAPPY PATH: ', () => {
+		it('should get status 200 when posting to /api/articles/:article_id/comments ', () => {
+			const article_id = 1;
+			const body = { username: 'lurker', body: 'test' };
+			return request(app)
+				.post(`/api/articles/${article_id}/comments`)
+				.send(body)
+				.expect(201)
+				.then((data) => {
+					const { comment } = data.body
+					console.log(comment)
+					expect(comment).toEqual({
+						comment_id: 19,
+						author: 'lurker',
+						article_id: 1,
+						votes: 0,
+						created_at: expect.any(String),
+						body: 'test',
 					});
 				});
 		});

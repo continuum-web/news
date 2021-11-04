@@ -115,22 +115,22 @@ describe('ENDPOINT: GET /api/articles', () => {
 		describe('Should allow user to sort ASC or DESC', () => {
 			it('should allow the user to pass through a sort direction defaulting to DESC', () => {
 				return request(app)
-					.get('/api/articles?order=ASC')
+					.get('/api/articles?order=asc')
 					.expect(200)
 					.then(({ body }) => {
 						const articles = body.articles;
 
-						expect(articles).toBeSortedBy('created_by');
+						expect(articles).toBeSortedBy('created_at');
 					});
 			});
 			it('Tests to allow sorting article_id column', () => {
 				return request(app)
-					.get('/api/articles?sort_by=article_id&order=ASC')
+					.get('/api/articles?sort_by=article_id&order=asc')
 					.expect(200)
 					.then(({ body }) => {
 						const articles = body.articles;
 
-						expect(articles).toBeSortedBy('votes');
+						expect(articles).toBeSortedBy('article_id');
 					});
 			});
 		});
@@ -147,7 +147,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					});
 			});
 		});
-		describe.only('Should test for empty and incorrect topics', () => {
+		describe('Should test for empty and incorrect topics', () => {
 			it('checks for an empty topic', () => {
 				return request(app)
 					.get('/api/articles?topic=paper')
@@ -178,8 +178,8 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				.get('/api/articles/1')
 				.expect(200)
 				.then(({ body }) => {
-					const article = body.article;
-					expect(article).toEqual([
+					const { articles } = body;
+					expect(articles).toEqual([
 						{
 							article_id: 1,
 							title: 'Living in the shadow of a great man',
@@ -202,7 +202,7 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('Bad Request'); //change to bad req
+					expect(msg).toEqual('bad request'); //change to bad req
 				});
 		});
 		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
@@ -253,7 +253,7 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('Bad Request');
+					expect(msg).toEqual('bad request');
 				});
 		});
 		it('STATUS 404: should check for a number but handle if its NOT in the db', () => {
@@ -281,7 +281,7 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 				.expect(400)
 				.then(({ body }) => {
 					const msg = body.msg;
-					expect(msg).toEqual('Bad Request');
+					expect(msg).toEqual('bad request');
 				});
 		});
 	});

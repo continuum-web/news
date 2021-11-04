@@ -11,15 +11,15 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ## Relevant HTTP Status Codes
 
-- 200 OK
-- 201 Created
-- 204 No Content
-- 400 Bad Request
-- 404 Not Found
-- 405 Method Not Allowed
-- 418 I'm a teapot
-- 422 Unprocessable Entity
-- 500 Internal Server Error
+-   200 OK
+-   201 Created
+-   204 No Content
+-   400 bad request
+-   404 Not Found
+-   405 Method Not Allowed
+-   418 I'm a teapot
+-   422 Unprocessable Entity
+-   500 Internal Server Error
 
 ---
 
@@ -31,7 +31,7 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/not-a-route`✅
 
-- Status: ???
+-   Status: ???
 
 ---
 
@@ -47,14 +47,14 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/api/articles/:article_id`
 
-- Bad `article_id` (e.g. `/dog`)✅
-- Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)✅
+-   Bad `article_id` (e.g. `/dog`)✅
+-   Well formed `article_id` that doesn't exist in the database (e.g. `/999999`)✅
 
 ### PATCH `/api/articles/:article_id`
 
-- No `inc_votes` on request body
-- Invalid `inc_votes` (e.g. `{ inc_votes : "cat" }`)
-- Some other property on request body (e.g. `{ inc_votes : 1, name: 'Mitch' }`)
+-   No `inc_votes` on request body
+-   Invalid `inc_votes` (e.g. `{ inc_votes : "cat" }`)
+-   Some other property on request body (e.g. `{ inc_votes : 1, name: 'Mitch' }`)
 
 ### POST `/api/articles/:article_id/comments`
 
@@ -66,11 +66,11 @@ Bear in mind, handling bad inputs from clients doesn't necessarily have to lead 
 
 ### GET `/api/articles`
 
-- Bad queries:
-  - `sort_by` a column that doesn't exist
-  - `order` !== "asc" / "desc"
-  - `author` / `topic` that is not in the database
-  - `author` / `topic` that exists but does not have any articles associated with it
+-   Bad queries:
+    -   `sort_by` a column that doesn't exist
+    -   `order` !== "asc" / "desc"
+    -   `author` / `topic` that is not in the database
+    -   `author` / `topic` that exists but does not have any articles associated with it
 
 ### PATCH `/api/comments/:comment_id`
 

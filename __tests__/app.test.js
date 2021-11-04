@@ -115,12 +115,13 @@ describe('ENDPOINT: GET /api/articles', () => {
 		describe('Should allow user to sort ASC or DESC', () => {
 			it('should allow the user to pass through a sort direction defaulting to DESC', () => {
 				return request(app)
-					.get('/api/articles?order=asc')
+					.get('/api/articles?order=desc')
 					.expect(200)
 					.then(({ body }) => {
 						const articles = body.articles;
 
-						expect(articles).toBeSortedBy('created_at');
+						expect(articles).toBeSortedBy('created_at', {
+  descending: true,});
 					});
 			});
 			it('Tests to allow sorting article_id column', () => {

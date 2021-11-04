@@ -1,6 +1,8 @@
 const db = require('../db/connection');
 
-exports.selectArticles = (article_id, sort_by="created_at", order = "DESC")=> {
+exports.selectArticles = (article_id,topic, sort_by = "created_at", order = "DESC" ) => {
+
+	const topics = ['mitch', 'cats','paper']
 	const queryParams = [];
 	const sortQuery = ['created_at', 'votes', 'title', 'article_id', 'topic', 'author', 'comment_count']
 	const allowedOrders = ['ASC', 'DESC']
@@ -9,15 +11,19 @@ exports.selectArticles = (article_id, sort_by="created_at", order = "DESC")=> {
 		queryStr += `WHERE articles.article_id = $1`;
 		queryParams.push(article_id);
 	}
+	if (topic !== undefined) {
+			queryStr += `WHERE articles.topic = $1`;
+			queryParams.push(topic);
+	}
 	queryStr += ` GROUP BY articles.article_id`;
-	if (!sortQuery.includes(sort_by)|| !allowedOrders.includes(order) ){
+	if (!sortQuery.includes(sort_by)|| !allowedOrders.includes(order) || !topics.includes(topic) ){
 		return Promise.reject({ status: 400, msg: 'bad request' })
 	}	
 	
 	queryStr += ` ORDER BY articles.${sort_by} ${order}`
 	
 	return db.query(queryStr, queryParams).then(({ rows }) => {
-		
+
 		return rows;
 	});
 };

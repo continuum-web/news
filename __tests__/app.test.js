@@ -50,11 +50,9 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body }) => {
-					
 					const { articles } = body;
-					
+
 					articles.forEach(article => {
-						
 						expect(article).toEqual(
 							expect.objectContaining({
 								article_id: expect.any(Number),
@@ -72,9 +70,12 @@ describe('ENDPOINT: GET /api/articles', () => {
 		});
 		describe('Should allow queries', () => {
 			it('should allow the user to pass through a sort_by Query that defaults to date', () => {
-				return request(app).get('/api/articles?sort_by=created_at').expect(200).then((articles) => {
-					expect(articles).toBeSortedBy("created_at")
-				})
+				return request(app)
+					.get('/api/articles?sort_by=created_at')
+					.expect(200)
+					.then(articles => {
+						expect(articles).toBeSortedBy('created_at');
+					});
 			});
 			it('should allow the user to pass sort_by=Votes', () => {
 				return request(app)
@@ -84,7 +85,32 @@ describe('ENDPOINT: GET /api/articles', () => {
 						expect(articles).toBeSortedBy('votes');
 					});
 			});
-			
+		});
+		describe.only('Should allow topics', () => {
+			it('should allow the user to pass through a topic ', () => {
+				return request(app)
+					.get('/api/articles?topic=cats')
+					.expect(200)
+					.then(({ body }) => {
+						const { articles } = body
+
+						articles.forEach(article => {
+							expect(article.topic).toEqual('cats')
+						})
+					});
+			});
+			it('should allow the user to pass through a topic ', () => {
+				return request(app)
+					.get('/api/articles?topic=mitch')
+					.expect(200)
+					.then(({ body }) => {
+						const { articles }  = body;
+						console.log(articles)
+						articles.forEach(article => {
+							expect(article.topic).toEqual('mitch');
+						});
+					});
+			});
 		});
 		describe('Should allow user to sort ASC or DESC', () => {
 			it('should allow the user to pass through a sort direction defaulting to DESC', () => {
@@ -92,19 +118,18 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.get('/api/articles?order=ASC')
 					.expect(200)
 					.then(({ body }) => {
-						const articles = body.articles
-						
+						const articles = body.articles;
+
 						expect(articles).toBeSortedBy('created_by');
-					}
-					);
+					});
 			});
 			it('Tests to allow sorting article_id column', () => {
 				return request(app)
 					.get('/api/articles?sort_by=article_id&order=ASC')
 					.expect(200)
 					.then(({ body }) => {
-						const articles = body.articles
-						
+						const articles = body.articles;
+
 						expect(articles).toBeSortedBy('votes');
 					});
 			});
@@ -117,24 +142,23 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.get('/api/articles?sort_by=POTATO')
 					.expect(400)
 					.then(({ body }) => {
-						const { msg } = body
-						expect(msg).toEqual('bad request')
+						const { msg } = body;
+						expect(msg).toEqual('bad request');
 					});
 			});
-			
 		});
 	});
 });
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
-		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			const articleRequired = 1;
 			return request(app)
 				.get('/api/articles/1')
 				.expect(200)
 				.then(({ body }) => {
-						const article = body.article
+					const article = body.article;
 					expect(article).toEqual([
 						{
 							article_id: 1,
@@ -281,9 +305,9 @@ describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 				.post(`/api/articles/${article_id}/comments`)
 				.send(body)
 				.expect(201)
-				.then((data) => {
-					const { comment } = data.body
-					
+				.then(data => {
+					const { comment } = data.body;
+
 					expect(comment).toEqual({
 						comment_id: 19,
 						author: 'lurker',
@@ -299,7 +323,7 @@ describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 
 describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 	it('RETURNS status 200', () => {
-		const comment_id = 3
-		return request(app).delete(`/api/comments/${comment_id}`).expect(204)
+		const comment_id = 3;
+		return request(app).delete(`/api/comments/${comment_id}`).expect(204);
 	});
 });

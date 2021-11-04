@@ -175,6 +175,7 @@ Responds with:
 
 ---
 
+#### **POST /api/articles/:article_id/comments**✅
 #### **GET /api/articles**
 
 Responds with:

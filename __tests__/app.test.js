@@ -105,7 +105,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.expect(200)
 					.then(({ body }) => {
 						const { articles } = body;
-						console.log(articles)
+						
 						articles.forEach(article => {
 							expect(article.topic).toEqual('mitch');
 						});
@@ -210,11 +210,12 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 			const article_id = '9999';
 			return request(app)
 				.get(`/api/articles/${article_id}`)
-				.expect(404)
-				.then(({ body }) => {
-					const msg = body.msg;
-					expect(msg).toEqual('not found');
-				});
+				.expect(404).then(
+					({ body }) => {
+						expect(body.msg).toEqual('not found')
+					}
+				)
+				
 		});
 	});
 });

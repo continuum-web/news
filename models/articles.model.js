@@ -37,7 +37,7 @@ exports.selectArticles = (
 	}
 	
 	queryStr += ` ORDER BY articles.${sort_by} ${order}`;
-	console.log(queryStr);
+
 	return db.query(queryStr, queryParams).then(({ rows }) => {
 		return rows;
 	});

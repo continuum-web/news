@@ -14,3 +14,9 @@ exports.addCommentById = (article_id, passedBody) => {
 
 	return db.query(queryStr, params);
 };
+
+exports.deleteCommentById = comment_id => {
+	const queryArr = [comment_id]
+	const queryStr = `DELETE FROM comments WHERE comment_id = $1 RETURNING *`
+	return db.query(queryStr, queryArr)
+}

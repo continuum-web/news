@@ -219,7 +219,7 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 	});
 });
 
-describe.only('ENDPOINT: POST /api/articles/:article_id/comments', () => {
+describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 	describe('HAPPY PATH: ', () => {
 		it('should get status 200 when posting to /api/articles/:article_id/comments ', () => {
 			const article_id = 1;
@@ -241,5 +241,12 @@ describe.only('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 					});
 				});
 		});
+	});
+});
+
+describe.only('ENDPOINT: DELETE /api/comments/comment_id', () => {
+	it('RETURNS status 200', () => {
+		const comment_id = 3
+		return request(app).delete(`/api/comments/${comment_id}`).expect(204)
 	});
 });

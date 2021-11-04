@@ -86,7 +86,7 @@ GET /api/articles/:article_id✅
 PATCH /api/articles/:article_id✅
 GET /api/articles✅
 GET /api/articles/:article_id/comments✅
-POST /api/articles/:article_id/comments
+POST /api/articles/:article_id/comments✅ -- More testing (Sad Path)
 DELETE /api/comments/:comment_id
 GET /api✅
 ```
@@ -155,7 +155,7 @@ Responds with:
 
 ---
 
-#### **PATCH /api/articles/:article_id**
+#### **PATCH /api/articles/:article_id**✅
 
 Request body accepts:
 
@@ -196,7 +196,7 @@ Should accept queries:
 
 ---
 
-#### **GET /api/articles/:article_id/comments**
+#### **GET /api/articles/:article_id/comments**✅
 
 Responds with:
 
@@ -209,7 +209,7 @@ Responds with:
 
 ---
 
-#### **POST /api/articles/:article_id/comments**
+#### **POST /api/articles/:article_id/comments**✅
 
 Request body accepts:
 

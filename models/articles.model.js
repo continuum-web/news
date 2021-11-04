@@ -1,13 +1,21 @@
 const db = require('../db/connection');
 
-exports.selectArticles = article_id => {
+exports.selectArticles = (article_id, sort_by="created_at")=> {
 	const queryParams = [];
+	const sortQuery = ['created_at', 'votes', 'title', 'article_i_d', 'topic', 'author', 'comment_count']
+	const allowedOrders = ['ASC', 'DESC']
 	let queryStr = `SELECT articles.*, COUNT(comments.comment_id) AS comment_count FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id `;
 	if (article_id !== undefined) {
 		queryStr += `WHERE articles.article_id = $1`;
 		queryParams.push(article_id);
 	}
 	queryStr += ` GROUP BY articles.article_id`;
+	if (!sortQuery.includes(sort_by)) {
+		return Promise.reject({ status: 400, msg: 'bad request' })
+	}	
+	
+	queryStr += ` ORDER BY articles.${sort_by}`
+	
 	return db.query(queryStr, queryParams).then(({ rows }) => {
 		//console.log(rows)
 		return rows;

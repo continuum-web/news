@@ -6,19 +6,21 @@ const {
 
 //the main article control function handles the get requests and hands of to the model
 exports.articlesController = (req, res, next) => {
-	const articles = [];
+	//const articles = [];
 	const { article_id } = req.params;
+	console.log(req.query)
+	const { sort_by } = req.query
 	//calls the selectArticles model to get articles from the database and send them back as a response to the express app.
-	return selectArticles(article_id)
+	return selectArticles(article_id, sort_by)
 		.then(article => {
 			if (article.length === 0) {
 				return Promise.reject({ status: 404, msg: 'not found' });
 			} else if (article.length === 1) {
-				articles.push(article);
-				res.status(200).send(article);
+				//articles.push(article);
+				res.status(200).send({ article });
 			} else {
-				articles.push(article);
-				res.status(200).send(article);
+				//articles.push(article);
+				res.status(200).send({ articles:article });
 			}
 		})
 		.catch(next);

@@ -223,7 +223,7 @@ Responds with:
 
 ---
 
-#### **DELETE /api/comments/:comment_id**
+#### **DELETE /api/comments/:comment_id**✅
 
 Should:
 

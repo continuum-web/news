@@ -51,9 +51,10 @@ describe('ENDPOINT: GET /api/articles', () => {
 				.expect(200)
 				.then(({ body }) => {
 					//console.log(body)
-					const articles = body;
+					const { articles } = body;
+					console.log(articles)
 					articles.forEach(article => {
-						console.log(article);
+						
 						expect(article).toEqual(
 							expect.objectContaining({
 								article_id: expect.any(Number),
@@ -68,6 +69,36 @@ describe('ENDPOINT: GET /api/articles', () => {
 						);
 					});
 				});
+		});
+		describe('Should allow queries', () => {
+			it('should allow the user to pass through a sort_by Query that defaults to date', () => {
+				return request(app).get('/api/articles?sort_by=created_at').expect(200).then((articles) => {
+					expect(articles).toBeSortedBy("created_at")
+				})
+			});
+			it('should allow the user to pass sort_by=Votes', () => {
+				return request(app)
+					.get('/api/articles?sort_by=votes')
+					.expect(200)
+					.then(articles => {
+						expect(articles).toBeSortedBy('votes');
+					});
+			});
+			
+		});
+	});
+	describe('SAD PATH', () => {
+		describe('Should allow queries', () => {
+			it.only('Should get a status 400 bad request when trying to sort by an invalid column', () => {
+				return request(app)
+					.get('/api/articles?sort_by=POTATO')
+					.expect(400)
+					.then(({ body }) => {
+						const { msg } = body
+						expect(msg).toEqual('bad request')
+					});
+			});
+			
 		});
 	});
 });
@@ -244,7 +275,7 @@ describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
 	});
 });
 
-describe.only('ENDPOINT: DELETE /api/comments/comment_id', () => {
+describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 	it('RETURNS status 200', () => {
 		const comment_id = 3
 		return request(app).delete(`/api/comments/${comment_id}`).expect(204)

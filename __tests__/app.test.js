@@ -86,7 +86,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					});
 			});
 		});
-		describe.only('Should allow topics', () => {
+		describe('Should allow topics', () => {
 			it('should allow the user to pass through a topic ', () => {
 				return request(app)
 					.get('/api/articles?topic=cats')
@@ -104,7 +104,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.get('/api/articles?topic=mitch')
 					.expect(200)
 					.then(({ body }) => {
-						const { articles }  = body;
+						const { articles } = body;
 						console.log(articles)
 						articles.forEach(article => {
 							expect(article.topic).toEqual('mitch');
@@ -147,8 +147,28 @@ describe('ENDPOINT: GET /api/articles', () => {
 					});
 			});
 		});
+		describe.only('Should test for empty and incorrect topics', () => {
+			it('checks for an empty topic', () => {
+				return request(app)
+					.get('/api/articles?topic=paper')
+					.expect(404)
+					.then(({ body }) => {
+						const { msg } = body
+						expect(msg).toEqual('not found')
+					});
+			});
+			it('checks for an NOT a topic', () => {
+				return request(app)
+					.get('/api/articles?topic=NOTATOPIC')
+					.expect(400)
+					.then(({ body }) => {
+						const { msg } = body;
+						expect(msg).toEqual('bad request');
+					});
+			});
+		});
 	});
-});
+})
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('happy Path', () => {
@@ -326,4 +346,4 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 		const comment_id = 3;
 		return request(app).delete(`/api/comments/${comment_id}`).expect(204);
 	});
-});
+})

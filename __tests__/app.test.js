@@ -44,7 +44,7 @@ describe('ENDPOINT: GET /api/topics', () => {
 });
 
 describe('ENDPOINT: GET /api/articles', () => {
-	describe('happy Path', () => {
+	describe('Happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			return request(app)
 				.get('/api/articles')
@@ -172,7 +172,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 })
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
-	describe('happy Path', () => {
+	describe('Happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			const articleRequired = 1;
 			return request(app)
@@ -290,7 +290,7 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 });
 
 describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
-	describe('happy Path', () => {
+	describe('Happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the comments table ', () => {
 			const articleRequired = 1;
 			return request(app)
@@ -316,6 +316,7 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				});
 		});
 	});
+
 });
 
 describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
@@ -347,5 +348,14 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 	it('RETURNS status 200', () => {
 		const comment_id = 3;
 		return request(app).delete(`/api/comments/${comment_id}`).expect(204);
+	});
+})
+
+
+describe('ENDPOINT: GET /api/users', () => {
+	describe('Happy Path', () => {
+		it('should ', () => {
+			
+		});
 	});
 })

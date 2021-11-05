@@ -353,9 +353,13 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 
 
 describe('ENDPOINT: GET /api/users', () => {
-	describe('Happy Path', () => {
-		it('should ', () => {
-			
+	describe.only('Happy Path', () => {
+		it('should return an array of users', () => {
+			return request(app).get('/api/users').expect(200).then(
+				({users}) => {
+					console.log(users)
+				}		
+			)
 		});
 	});
 })

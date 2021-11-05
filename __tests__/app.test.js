@@ -400,4 +400,17 @@ describe.only('ENDPOINT: GET /api/users', () => {
 				})
 		});
 	});
+	describe('Sad Path', () => {
+		it('Status: 404 not found when passed an unknown user', () => {
+			const user_id = 'BANANNA';
+			return request(app)
+				.get(`/api/users/${user_id}`)
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toEqual('not found');
+					
+				});
+		});
+		
+	});
 })

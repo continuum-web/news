@@ -8,6 +8,5 @@ exports.getUsers = (username) => {
         queryStr += ` WHERE username = $1`
         queryParams.push(username)
     }
-    console.log(queryStr)
     return db.query(queryStr, queryParams)
 }

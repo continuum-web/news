@@ -2,17 +2,16 @@ const apiRouter = require('express').Router()
 const topicsRouter = require('./topicsRouter');
 const articlesRouter= require('./articlesRouter')
 const commentsRouter = require('./commentsRouter');
-const fs = require('fs');
+const endpointJson = require('../endpoints.json')
+const fs = require('fs/promises');
 
 //sends the user an welcome message
 apiRouter.get('/', (req, res) => {
-    const jsonFile = fs.readFile('./endpoints.json', (err, json) => {
-		let obj = JSON.parse(json);
-		res.json(obj);
-    });
-    jsonFile.then((obj) => {
-        res.status(200).send(obj)
-    })
+   
+        res.header('Content-Type', 'application/json')
+			.status(200)
+			.json(endpointJson);
+   
     
 })
 

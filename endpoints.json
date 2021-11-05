@@ -1,27 +1,76 @@
 {
-  "GET /api": {
-    "description": "serves up a json representation of all the available endpoints of the api"
-  },
-  "GET /api/topics": {
-    "description": "serves an array of all topics",
-    "queries": [],
-    "exampleResponse": {
-      "topics": [{ "slug": "football", "description": "Footie!" }]
-    }
-  },
-  "GET /api/articles": {
-    "description": "serves an array of all topics",
-    "queries": ["author", "topic", "sort_by", "order"],
-    "exampleResponse": {
-      "articles": [
-        {
-          "title": "Seafood substitutions are increasing",
-          "topic": "cooking",
-          "author": "weegembump",
-          "body": "Text from the article..",
-          "created_at": 1527695953341
-        }
-      ]
-    }
-  }
+	"GET /api": {
+		"description": "serves up a json representation of all the available endpoints of the api"
+	},
+	"GET /api/topics": {
+		"description": "serves an array of all topics",
+		"queries": [],
+		"exampleResponse": {
+			"topics": [{ "slug": "football", "description": "Footie!" }]
+		}
+	},
+	"GET /api/articles": {
+		"description": "serves an array of all topics",
+		"queries": ["topic", "sort_by", "order"],
+		"exampleResponse": {
+			"articles": [
+				{
+					"title": "A title",
+					"topic": "A topic",
+					"author": "An Author",
+					"body": "Text from the article..",
+					"created_at": 1527695953341
+				}
+			]
+		}
+	},
+	"GET /api/articles/:article_id": {
+		"description": "serves an object of a single article",
+		"queries": ["topic", "sort_by", "order"],
+		"exampleResponse": {
+			"article": [
+				{
+					"title": "A title",
+					"topic": "A topic",
+					"author": "An Author",
+					"body": "Text from the article..",
+					"created_at": 1527695953341
+				}
+			]
+		}
+	},
+	"PATCH /api/articles/:article_id": {
+		"description": "allows you to update the votes value on an article, requires an article_id and a body this will increase the vote by 2",
+		"queries": [],
+		"exampleBody": {
+			"inc_votes": 2
+		}
+	},
+	"GET /api/articles/:article_id/comments": {
+		"description": "serves an array of object, it displays the comments for a given article_id",
+		"queries": [],
+		"exampleResponse": {
+			"comments": [
+				{
+					"comment_id": 19,
+					"author": "lurker",
+					"article_id": 1,
+					"votes": 0,
+					"created_at": 1527695953341,
+					"body": "test"
+				}
+			]
+		}
+	},
+	"POST /api/articles/:article_id/comments": {
+		"description": "allows you to post a comment to an article using article_id",
+		"queries": [],
+		"exampleBody": {
+			"exampleBody": { "username": "lurker", "body": "test" }
+		}
+	},
+	"DELETE /api/comments/:comment_id": {
+		"description": "allows you to DELETE a comment using article_id"
+		
+	}
 }

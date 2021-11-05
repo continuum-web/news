@@ -351,15 +351,53 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 	});
 })
 
-
-describe('ENDPOINT: GET /api/users', () => {
-	describe.only('Happy Path', () => {
-		it('should return an array of users', () => {
+describe.only('ENDPOINT: GET /api/users', () => {
+	describe('Happy Path', () => {
+		it('STATUS: 200should return an array of users', () => {
 			return request(app).get('/api/users').expect(200).then(
-				({users}) => {
-					console.log(users)
+			(({ body: { users } }) => {
+					expect(users).toHaveLength(4)
+					expect(users).toEqual([
+						{
+							username: 'butter_bridge',
+							avatar_url:
+								'https://www.healthytherapies.com/wp-content/uploads/2016/06/Lime3.jpg',
+							name: 'jonny',
+						},
+						{
+							username: 'icellusedkars',
+							avatar_url:
+								'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
+							name: 'sam',
+						},
+						{
+							username: 'rogersop',
+							avatar_url:
+								'https://avatars2.githubusercontent.com/u/24394918?s=400&v=4',
+							name: 'paul',
+						},
+						{
+							username: 'lurker',
+							avatar_url:
+								'https://www.golenbock.com/wp-content/uploads/2015/01/placeholder-user.png',
+							name: 'do_nothing',
+						},
+					]);
 				}		
-			)
+			))
+		});
+		it('STATUS: 200 should return a single user with the :user_id', () => {
+			const user_id = 'icellusedkars';
+			return request(app).get(`/api/users/${user_id}`).expect(200).then(
+				({ body: { users } }) => {
+					expect(users).toHaveLength(1)
+					expect(users[0]).toEqual({
+						username: 'icellusedkars',
+						avatar_url:
+							'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
+						name: 'sam',
+					});
+				})
 		});
 	});
 })

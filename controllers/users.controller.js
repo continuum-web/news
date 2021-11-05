@@ -1,7 +1,9 @@
 const { getUsers } = require('../models/users.model');
 
 exports.getUsersController = (req, res, next) => {
-    return getUsers()
+    let  { username } = req.params
+    
+    return getUsers(username)
         .then((body) => {
             const { rows } = body
             res.status(200).send({users:rows});

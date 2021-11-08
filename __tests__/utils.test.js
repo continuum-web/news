@@ -1,8 +1,6 @@
 const db = require('../db/connection.js');
 
 const {
-	articleData,
-	commentData,
 	topicData,
 	userData,
 } = require('../db/data/test-data/index.js');

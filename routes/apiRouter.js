@@ -4,9 +4,8 @@ const articlesRouter= require('./articlesRouter')
 const commentsRouter = require('./commentsRouter');
 const usersRouter = require('./usersRouter')
 const endpointJson = require('../endpoints.json')
-const fs = require('fs/promises');
 
-//sends the user an welcome message
+
 apiRouter.get('/', (req, res) => {
    
         res.header('Content-Type', 'application/json')
@@ -16,7 +15,7 @@ apiRouter.get('/', (req, res) => {
     
 })
 
-// routers for /topics /comments and /articles
+
 apiRouter.use('/topics', topicsRouter);
 apiRouter.use('/comments', commentsRouter)
 apiRouter.use('/articles', articlesRouter)

@@ -289,7 +289,7 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 	});
 });
 
-describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
+describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 	describe('Happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the comments table ', () => {
 			const articleRequired = 1;
@@ -298,11 +298,13 @@ describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				.expect(200)
 				.then(({ body }) => {
 					const comments = body.comments;
-
+					
+					expect(comments).toHaveLength(11)
+					
 					comments.forEach(comment => {
 						expect(comment).toEqual(
 							expect.objectContaining({
-								article_id: expect.any(Number),
+								article_id: 1,
 								title: expect.any(String),
 								body: expect.any(String),
 								votes: expect.any(Number),
@@ -351,7 +353,7 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 	});
 })
 
-describe.only('ENDPOINT: GET /api/users', () => {
+describe('ENDPOINT: GET /api/users', () => {
 	describe('Happy Path', () => {
 		it('STATUS: 200should return an array of users', () => {
 			return request(app).get('/api/users').expect(200).then(
@@ -402,7 +404,7 @@ describe.only('ENDPOINT: GET /api/users', () => {
 	});
 	describe('Sad Path', () => {
 		it('Status: 404 not found when passed an unknown user', () => {
-			const user_id = 'BANANNA';
+			const user_id = "banana";
 			return request(app)
 				.get(`/api/users/${user_id}`)
 				.expect(404)
@@ -411,6 +413,14 @@ describe.only('ENDPOINT: GET /api/users', () => {
 					
 				});
 		});
-		
+		it('STATUS: 400 bad request when passed something this is not a string', () => {
+			const user_id = 2;
+			return request(app)
+				.get(`/api/users/${user_id}`)
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toEqual('bad request');
+				});
+		});
 	});
 })

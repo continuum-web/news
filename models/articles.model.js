@@ -28,14 +28,14 @@ exports.selectArticles = (
 			queryStr += `WHERE articles.topic = $1 `;
 			queryParams.push(topic);
 		} else {
-			return Promise.reject({ status: 400, msg: 'bad request' });
+			return Promise.reject({ status: 404, msg: 'not found' });
 		}
 	}
 	queryStr += ` GROUP BY articles.article_id`;
-	if (!sortQuery.includes(sort_by)||!allowedOrders.includes(order)) {
+	if (!sortQuery.includes(sort_by) || !allowedOrders.includes(order)) {
 		return Promise.reject({ status: 400, msg: 'bad request' });
 	}
-	
+
 	queryStr += ` ORDER BY articles.${sort_by} ${order}`;
 
 	return db.query(queryStr, queryParams).then(({ rows }) => {

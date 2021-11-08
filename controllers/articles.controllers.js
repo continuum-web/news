@@ -13,13 +13,12 @@ exports.articlesController = (req, res, next) => {
 
 	//calls the selectArticles model to get articles from the database and send them back as a response to the express app.
 	return selectArticles(article_id, topic, sort_by,order)
-		.then(articles => {
+		.then((articles) => {
 			
 			if (articles.length === 0) {
 				return Promise.reject({ status: 404, msg: 'not found' });
 			} else {
-				//articles.push(article);
-				res.status(200).send({ articles:articles });
+				res.status(200).send({ articles } );
 			}
 		})
 		.catch(next);
@@ -45,7 +44,9 @@ exports.patchArticle = (req, res, next) => {
 	const { article_id } = req.params;
 	const { inc_votes } = req.body;
 	return patchArticle(article_id, inc_votes)
+		
 		.then(({ articles }) => {
+			console.log(articles)
 			res.status(202).send(articles);
 		})
 		.catch(next);

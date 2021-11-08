@@ -49,9 +49,9 @@ describe('ENDPOINT: GET /api/articles', () => {
 			return request(app)
 				.get('/api/articles')
 				.expect(200)
-				.then(({ body }) => {
-					const { articles } = body;
-
+				.then(({ body: { articles } }) => {
+					console.log(articles.length);
+					expect(articles).toHaveLength(12);
 					articles.forEach(article => {
 						expect(article).toEqual(
 							expect.objectContaining({
@@ -67,6 +67,19 @@ describe('ENDPOINT: GET /api/articles', () => {
 						);
 					});
 				});
+		});
+		describe('Status 200: check default response for  for sort Order', () => {
+			it('should check if the database returns an order as default creates_at and desc', () => {
+				return request(app)
+					.get('/api/articles')
+					.expect(200)
+					.then(({ body: { articles } }) => {
+						expect(articles).toHaveLength(12);
+						expect(articles).toBeSortedBy('created_at', {
+							descending: true,
+						});
+					});
+			});
 		});
 		describe('Should allow queries', () => {
 			it('should allow the user to pass through a sort_by Query that defaults to date', () => {
@@ -92,11 +105,11 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.get('/api/articles?topic=cats')
 					.expect(200)
 					.then(({ body }) => {
-						const { articles } = body
+						const { articles } = body;
 
 						articles.forEach(article => {
-							expect(article.topic).toEqual('cats')
-						})
+							expect(article.topic).toEqual('cats');
+						});
 					});
 			});
 			it('should allow the user to pass through a topic ', () => {
@@ -105,7 +118,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					.expect(200)
 					.then(({ body }) => {
 						const { articles } = body;
-						
+
 						articles.forEach(article => {
 							expect(article.topic).toEqual('mitch');
 						});
@@ -121,7 +134,8 @@ describe('ENDPOINT: GET /api/articles', () => {
 						const articles = body.articles;
 
 						expect(articles).toBeSortedBy('created_at', {
-  descending: true,});
+							descending: true,
+						});
 					});
 			});
 			it('Tests to allow sorting article_id column', () => {
@@ -147,20 +161,9 @@ describe('ENDPOINT: GET /api/articles', () => {
 						expect(msg).toEqual('bad request');
 					});
 			});
-		});
-		describe('Should test for empty and incorrect topics', () => {
-			it('checks for an empty topic', () => {
+			it('Should get a status 400 bad request when trying to sort by an invalid order ie ASC or DESC', () => {
 				return request(app)
-					.get('/api/articles?topic=paper')
-					.expect(404)
-					.then(({ body }) => {
-						const { msg } = body
-						expect(msg).toEqual('not found')
-					});
-			});
-			it('checks for an NOT a topic', () => {
-				return request(app)
-					.get('/api/articles?topic=NOTATOPIC')
+					.get('/api/articles?order=POTATO')
 					.expect(400)
 					.then(({ body }) => {
 						const { msg } = body;
@@ -168,8 +171,28 @@ describe('ENDPOINT: GET /api/articles', () => {
 					});
 			});
 		});
+		describe('Should test for empty and incorrect topics', () => {
+			it('checks for an empty topic', () => {
+				return request(app)
+					.get('/api/articles?topic=paper')
+					.expect(404)
+					.then(({ body }) => {
+						const { msg } = body;
+						expect(msg).toEqual('not found');
+					});
+			});
+			it('checks for an NOT a topic', () => {
+				return request(app)
+					.get('/api/articles?topic=NOTATOPIC')
+					.expect(404)
+					.then(({ body }) => {
+						const { msg } = body;
+						expect(msg).toEqual('not found');
+					});
+			});
+		});
 	});
-})
+});
 
 describe('ENDPOINT: GET /api/articles/:article_id', () => {
 	describe('Happy Path', () => {
@@ -210,12 +233,10 @@ describe('ENDPOINT: GET /api/articles/:article_id', () => {
 			const article_id = '9999';
 			return request(app)
 				.get(`/api/articles/${article_id}`)
-				.expect(404).then(
-					({ body }) => {
-						expect(body.msg).toEqual('not found')
-					}
-				)
-				
+				.expect(404)
+				.then(({ body }) => {
+					expect(body.msg).toEqual('not found');
+				});
 		});
 	});
 });
@@ -289,7 +310,7 @@ describe('ENDPOINT: PATCH /api/articles/:article_id', () => {
 	});
 });
 
-describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
+describe('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 	describe('Happy Path', () => {
 		it('STATUS: 200, it receive a 200 status and a rows from the comments table ', () => {
 			const articleRequired = 1;
@@ -298,9 +319,9 @@ describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				.expect(200)
 				.then(({ body }) => {
 					const comments = body.comments;
-					
-					expect(comments).toHaveLength(11)
-					
+
+					expect(comments).toHaveLength(11);
+
 					comments.forEach(comment => {
 						expect(comment).toEqual(
 							expect.objectContaining({
@@ -318,7 +339,6 @@ describe.only('ENDPOINT: GET /api/articles/:article_id/comments', () => {
 				});
 		});
 	});
-
 });
 
 describe('ENDPOINT: POST /api/articles/:article_id/comments', () => {
@@ -351,14 +371,16 @@ describe('ENDPOINT: DELETE /api/comments/comment_id', () => {
 		const comment_id = 3;
 		return request(app).delete(`/api/comments/${comment_id}`).expect(204);
 	});
-})
+});
 
 describe('ENDPOINT: GET /api/users', () => {
 	describe('Happy Path', () => {
 		it('STATUS: 200should return an array of users', () => {
-			return request(app).get('/api/users').expect(200).then(
-			(({ body: { users } }) => {
-					expect(users).toHaveLength(4)
+			return request(app)
+				.get('/api/users')
+				.expect(200)
+				.then(({ body: { users } }) => {
+					expect(users).toHaveLength(4);
 					expect(users).toEqual([
 						{
 							username: 'butter_bridge',
@@ -385,32 +407,32 @@ describe('ENDPOINT: GET /api/users', () => {
 							name: 'do_nothing',
 						},
 					]);
-				}		
-			))
+				});
 		});
 		it('STATUS: 200 should return a single user with the :user_id', () => {
 			const user_id = 'icellusedkars';
-			return request(app).get(`/api/users/${user_id}`).expect(200).then(
-				({ body: { users } }) => {
-					expect(users).toHaveLength(1)
+			return request(app)
+				.get(`/api/users/${user_id}`)
+				.expect(200)
+				.then(({ body: { users } }) => {
+					expect(users).toHaveLength(1);
 					expect(users[0]).toEqual({
 						username: 'icellusedkars',
 						avatar_url:
 							'https://avatars2.githubusercontent.com/u/24604688?s=460&v=4',
 						name: 'sam',
 					});
-				})
+				});
 		});
 	});
 	describe('Sad Path', () => {
 		it('Status: 404 not found when passed an unknown user', () => {
-			const user_id = "banana";
+			const user_id = 'banana';
 			return request(app)
 				.get(`/api/users/${user_id}`)
 				.expect(404)
 				.then(({ body: { msg } }) => {
 					expect(msg).toEqual('not found');
-					
 				});
 		});
 		it('STATUS: 400 bad request when passed something this is not a string', () => {
@@ -423,4 +445,4 @@ describe('ENDPOINT: GET /api/users', () => {
 				});
 		});
 	});
-})
+});

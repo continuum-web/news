@@ -1,6 +1,13 @@
 const express = require('express');
 const apiRouter = require('./routes/apiRouter.js');
-const { handlePSQLErrors, handleCustomErrors, handle500s } = require('./errorHandling');
+const {
+	handlePSQLErrors,
+	handleCustomErrors,
+	handle500s,
+} = require('./errorHandling');
+const cors = require('cors');
+
+app.use(cors());
 
 // Creates the Express app
 app = express();
@@ -20,6 +27,5 @@ app.all('/*', (req, res) => {
 	res.status(404).send({ msg: 'Not Found' });
 });
 
-
-//exports the app 
+//exports the app
 module.exports = app;

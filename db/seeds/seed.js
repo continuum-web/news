@@ -6,14 +6,14 @@ const seed = async data => {
 	const { articleData, commentData, topicData, userData } = data;
 
 	const qsTopicTable = `
-  CREATE TABLE topics (
+  	CREATE TABLE topics (
     slug VARCHAR PRIMARY KEY,
-    description TEXT
+    description TEXT NOT NULL
   );`;
 	const qsUserTable = `CREATE TABLE users (
     username VARCHAR PRIMARY KEY,
     avatar_url TEXT,
-    name VARCHAR
+    name VARCHAR NOT NULL
   );`;
 
 	const qsArticleTable = `CREATE TABLE articles (
@@ -27,10 +27,10 @@ const seed = async data => {
   );`;
 	const qsCommentTable = `CREATE TABLE comments (
   comment_id SERIAL PRIMARY KEY,
-  author VARCHAR REFERENCES users (username),
-  article_id INT REFERENCES articles (article_id),
+  author VARCHAR REFERENCES users (username) NOT NULL,
+  article_id INT REFERENCES articles (article_id) NOT NULL,
   votes INT DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   body TEXT
   );`;
 
@@ -61,7 +61,7 @@ const seed = async data => {
 			const formattedData = formatDataForEntry(topicData);
 			const queryStr = format(
 				`INSERT INTO topics (description,slug ) VALUES %L RETURNING *`,
-				formattedData
+				formattedData,
 			);
 			return db.query(queryStr);
 		})
@@ -69,7 +69,7 @@ const seed = async data => {
 			const formattedData = formatDataForEntry(userData);
 			const queryStr = format(
 				`INSERT INTO users (username, name, avatar_url) VALUES %L RETURNING *`,
-				formattedData
+				formattedData,
 			);
 			return db.query(queryStr);
 		})
@@ -78,7 +78,7 @@ const seed = async data => {
 
 			const queryStr = format(
 				`INSERT INTO articles (title, topic, author,body, created_at, votes) VALUES %L RETURNING *`,
-				formattedData
+				formattedData,
 			);
 			return db.query(queryStr);
 		})
@@ -87,7 +87,7 @@ const seed = async data => {
 
 			const queryStr = format(
 				`INSERT INTO comments (body, votes, author, article_id, created_at) VALUES %L RETURNING *`,
-				formattedData
+				formattedData,
 			);
 			return db.query(queryStr);
 		})

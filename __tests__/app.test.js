@@ -7,19 +7,6 @@ const app = require('../app');
 beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
-describe('Tests the core routes of the app', () => {
-	it('should receive a status of 200 and a welcome message when visiting /api', () => {
-		return request(app)
-			.get('/api')
-			.expect(200)
-			.then(({ body }) => {
-				const msg = body.msg;
-
-				expect(msg).toEqual('Welcome to the API');
-			});
-	});
-});
-
 describe('ENDPOINT: GET /api/topics', () => {
 	describe('happy path:', () => {
 		it('should receive the status of 200 with the rows of the database', () => {
@@ -45,19 +32,17 @@ describe('ENDPOINT: GET /api/topics', () => {
 
 describe('ENDPOINT: GET /api/articles', () => {
 	describe('Happy Path', () => {
-		it('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
+		it.only('STATUS: 200, it receive a 200 status and a rows from the database ', () => {
 			return request(app)
 				.get('/api/articles')
 				.expect(200)
 				.then(({ body: { articles } }) => {
-					console.log(articles.length);
 					expect(articles).toHaveLength(12);
 					articles.forEach(article => {
 						expect(article).toEqual(
 							expect.objectContaining({
 								article_id: expect.any(Number),
 								author: expect.any(String),
-								body: expect.any(String),
 								comment_count: expect.any(String),
 								created_at: expect.anything(),
 								title: expect.any(String),

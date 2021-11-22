@@ -5,7 +5,7 @@ const {
 } = require('../models/articles.model');
 
 //the main article control function handles the get requests and hands of to the model
-exports.articlesController = (req, res, next) => {
+exports.getArticles = (req, res, next) => {
 	// const articles = [];
 	const { article_id } = req.params;
 	
@@ -14,11 +14,11 @@ exports.articlesController = (req, res, next) => {
 	//calls the selectArticles model to get articles from the database and send them back as a response to the express app.
 	return selectArticles(article_id, topic, sort_by,order)
 		.then((articles) => {
-			
+			console.log(articles)
 			if (articles.length === 0) {
 				return Promise.reject({ status: 404, msg: 'not found' });
 			} else {
-				res.status(200).send({ articles } );
+				res.status(200).send({ articles: rows } );
 			}
 		})
 		.catch(next);
@@ -46,7 +46,7 @@ exports.patchArticle = (req, res, next) => {
 	return patchArticle(article_id, inc_votes)
 		
 		.then(({ articles }) => {
-			console.log(articles)
+			
 			res.status(202).send(articles);
 		})
 		.catch(next);

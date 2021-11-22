@@ -7,11 +7,12 @@ const {
 } = require('./errorHandling');
 const cors = require('cors');
 
-app.use(cors());
+
 
 // Creates the Express app
 app = express();
 //this allows us to use the body of requests
+app.use(cors());
 app.use(express.json());
 
 //our base route

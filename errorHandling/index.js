@@ -1,3 +1,4 @@
+
 exports.handleCustomErrors = (err, req, res, next) => {
 	if (err.status && err.msg) {
 		res.status(err.status).send({ msg: err.msg });
@@ -6,7 +7,6 @@ exports.handleCustomErrors = (err, req, res, next) => {
 	}
 };
 exports.handlePSQLErrors = (err, req, res, next) => {
-	
 	const errorCodes = {
 		'22P02': { status: 400, msg: { msg: 'bad request' } },
 	};

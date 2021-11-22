@@ -1,7 +1,7 @@
 const { selectTopics } = require('../models/topics.models.js');
 
 
-exports.topicsController = (req, res, next) => {
+exports.topicsController = (req, res) => {
    
     return selectTopics().then(({rows}) => {
 		

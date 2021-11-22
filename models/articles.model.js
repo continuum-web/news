@@ -38,9 +38,10 @@ exports.selectArticles = (
 
 	queryStr += ` ORDER BY articles.${sort_by} ${order}`;
 
-	return db.query(queryStr, queryParams).then(({ rows }) => {
-		return rows;
-	});
+	return db.query(queryStr, queryParams)
+	// 	.then(({ rows }) => {
+	// 	return rows;
+	// });
 };
 
 exports.articleComments = article_id => {

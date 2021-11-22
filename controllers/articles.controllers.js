@@ -14,11 +14,11 @@ exports.getArticles = (req, res, next) => {
 	//calls the selectArticles model to get articles from the database and send them back as a response to the express app.
 	return selectArticles(article_id, topic, sort_by,order)
 		.then((articles) => {
-			console.log(articles)
-			if (articles.length === 0) {
+			console.log(articles.rows)
+			if (articles.rows.length === 0) {
 				return Promise.reject({ status: 404, msg: 'not found' });
 			} else {
-				res.status(200).send({ articles: rows } );
+				res.status(200).send({ articles: articles.rows } );
 			}
 		})
 		.catch(next);

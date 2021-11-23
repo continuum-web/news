@@ -6,7 +6,7 @@ exports.selectArticles = (
 	sort_by = 'created_at',
 	order = 'desc'
 ) => {
-	const topics = ['mitch', 'cats', 'paper'];
+	// const topics = ['mitch', 'cats', 'paper'];
 	const queryParams = [];
 	const sortQuery = [
 		'created_at',

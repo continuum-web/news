@@ -84,7 +84,7 @@ describe('ENDPOINT: GET /api/articles', () => {
 					});
 			});
 		});
-		describe('Should allow topics', () => {
+		describe.only('Should allow topics', () => {
 			it('should allow the user to pass through a topic ', () => {
 				return request(app)
 					.get('/api/articles?topic=cats')

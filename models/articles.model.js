@@ -4,7 +4,7 @@ exports.selectArticles = (
 	article_id,
 	topic,
 	sort_by = 'created_at',
-	order = 'desc'
+	order = 'desc',
 ) => {
 	const topics = ['coding', 'cooking', 'football'];
 	const queryParams = [];
@@ -36,9 +36,13 @@ exports.selectArticles = (
 		return Promise.reject({ status: 400, msg: 'bad request' });
 	}
 
-	queryStr += ` ORDER BY articles.${sort_by} ${order}`;
+	if (sort_by === 'comment_count') {
+		queryStr += ` ORDER BY ${sort_by} ${order}`;
+	} else {
+		queryStr += ` ORDER BY articles.${sort_by} ${order}`;
+	}
 
-	return db.query(queryStr, queryParams)
+	return db.query(queryStr, queryParams);
 	// 	.then(({ rows }) => {
 	// 	return rows;
 	// });

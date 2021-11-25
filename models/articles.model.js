@@ -61,7 +61,7 @@ exports.articleComments = article_id => {
 exports.patchArticle = (article_id, inc_votes) => {
 	const articleLength = `SELECT * FROM articles`;
 
-	if (article_id > articleLength.length) {
+	if (article_id < articleLength.length) {
 		return Promise.reject({ status: 404, msg: 'Not Found' });
 	}
 

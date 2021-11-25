@@ -9,8 +9,9 @@ const {
 
 exports.getCommentById = (req, res, next) => {
 	const { comment_id } = req.params;
-	return getASingleComment(comment_id).then(({ rows }) => {
-		res.status(200).send({ comment: rows[0] });
+    return getASingleComment(comment_id).then(({ rows }) => {
+        console.log(rows)
+		res.status(200).send({ comment: rows[0] }).catch(next);
 	});
 };
 exports.getAllComments = (req, res, next) => {

@@ -11,7 +11,7 @@ exports.getAllComments = (req, res, next) => {
     
     return getComments()
 			.then(({ rows }) => {
-				res.status(200).send({ comment: rows[0] });
+				res.status(200).send({ comment: rows });
 			})
 			.catch(next);
 }

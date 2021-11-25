@@ -1,5 +1,19 @@
 const db = require('../db/connection');
 
+exports.getComments = () => {
+	
+	const queryStr = `SELECT * FROM comments `;
+
+	return db.query(queryStr);
+
+
+}
+
+
+
+
+
+
 exports.addCommentById = (article_id, passedBody) => {
 	const params = [];
 

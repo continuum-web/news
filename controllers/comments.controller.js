@@ -17,3 +17,14 @@ exports.deleteComment = (req, res, next) => {
     }).catch(next)
 
 }
+
+exports.patchComments = (req, res, next) => {
+    const { comment_id } = req.params;
+    const { inc_votes } = req.body;
+    return this.patchComments(comment_id, inc_votes)
+			.then(({ rows }) => {
+				res.status(204).send();
+			})
+			.catch(next);
+
+}

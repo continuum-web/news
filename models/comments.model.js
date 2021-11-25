@@ -8,7 +8,7 @@ exports.getComments = () => {
 
 exports.GetASingleComment = comment_id => {
 	const queryArr = [comment_id];
-	const queryStr = `SELECT * FROM comments WHERE comment_id = $1 RETURNING *`;
+	const queryStr = `SELECT * FROM comments WHERE comment_id = $1;`;
 	return db.query(queryStr, queryArr);
 };
 

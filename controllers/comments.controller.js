@@ -2,19 +2,23 @@ const { addCommentById } = require('../models/comments.model');
 
 const {
 	deleteCommentById,
-    patchCommentsById,
-    getComments
+	patchCommentsById,
+	getComments,
 } = require('../models/comments.model');
 
-
+exports.getCommentById = (req, res, next) => {
+	const { comment_id } = req.params;
+	return getASingleComment(comment_id).then(({ rows }) => {
+		res.status(200).send({ comment: rows[0] });
+	});
+};
 exports.getAllComments = (req, res, next) => {
-    
-    return getComments()
-			.then(({ rows }) => {
-				res.status(200).send({ comment: rows });
-			})
-			.catch(next);
-}
+	return getComments()
+		.then(({ rows }) => {
+			res.status(200).send({ comment: rows });
+		})
+		.catch(next);
+};
 
 exports.postComment = (req, res, next) => {
 	const { article_id } = req.params;

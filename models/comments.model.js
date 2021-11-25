@@ -1,18 +1,16 @@
 const db = require('../db/connection');
 
 exports.getComments = () => {
-	
 	const queryStr = `SELECT * FROM comments `;
 
 	return db.query(queryStr);
+};
 
-
-}
-
-
-
-
-
+exports.GetASingleComment = comment_id => {
+	const queryArr = [comment_id];
+	const queryStr = `SELECT * FROM comments WHERE comment_id = $1 RETURNING *`;
+	return db.query(queryStr, queryArr);
+};
 
 exports.addCommentById = (article_id, passedBody) => {
 	const params = [];
@@ -22,7 +20,6 @@ exports.addCommentById = (article_id, passedBody) => {
 	params.push(username);
 	params.push(body);
 
-
 	const queryStr = `INSERT INTO comments (article_id, author, body)
     VALUES ($1, $2, $3) RETURNING *;`;
 
@@ -30,10 +27,10 @@ exports.addCommentById = (article_id, passedBody) => {
 };
 
 exports.deleteCommentById = comment_id => {
-	const queryArr = [comment_id]
-	const queryStr = `DELETE FROM comments WHERE comment_id = $1 RETURNING *`
-	return db.query(queryStr, queryArr)
-}
+	const queryArr = [comment_id];
+	const queryStr = `DELETE FROM comments WHERE comment_id = $1 RETURNING *`;
+	return db.query(queryStr, queryArr);
+};
 
 exports.patchCommentsById = (comment_id, inc_votes) => {
 	const commentsLength = `SELECT * FROM comments`;

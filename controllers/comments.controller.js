@@ -3,7 +3,8 @@ const { addCommentById } = require('../models/comments.model');
 const {
 	deleteCommentById,
 	patchCommentsById,
-	getComments,
+    getComments,
+    getASingleComment
 } = require('../models/comments.model');
 
 exports.getCommentById = (req, res, next) => {

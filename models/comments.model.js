@@ -33,12 +33,7 @@ exports.deleteCommentById = comment_id => {
 };
 
 exports.patchCommentsById = (comment_id, inc_votes) => {
-	const commentsLength = `SELECT * FROM comments`;
-
-	if (comment_id > commentsLength.length) {
-		return Promise.reject({ status: 404, msg: 'Not Found' });
-	}
-
+	
 	if (typeof inc_votes !== 'number') {
 		return Promise.reject({ status: 400, msg: 'bad request' });
 	}

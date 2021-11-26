@@ -47,7 +47,7 @@ exports.patchComments = (req, res, next) => {
 	const { inc_votes } = req.body;
 	return patchCommentsById(comment_id, inc_votes)
 		.then(({ rows }) => {
-			res.status(204).send();
+			res.status(200).send(rows);
 		})
 		.catch(next);
 };

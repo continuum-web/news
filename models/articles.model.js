@@ -43,9 +43,7 @@ exports.selectArticles = (
 	}
 
 	return db.query(queryStr, queryParams);
-	// 	.then(({ rows }) => {
-	// 	return rows;
-	// });
+	
 };
 
 exports.articleComments = article_id => {
@@ -58,18 +56,19 @@ exports.articleComments = article_id => {
 	return db.query(queryStr, queryParams);
 };
 
-exports.patchArticle = (article_id, inc_votes) => {
-	const articleLength = `SELECT * FROM articles`;
 
-	if (article_id < articleLength.length) {
-		return Promise.reject({ status: 404, msg: 'Not Found' });
-	}
+
+exports.patchArticle = (article_id, inc_votes) => {
+	
+	// if (article_id < articleLength.length) {
+	// 	return Promise.reject({ status: 404, msg: 'Not Found' });
+	// }
 
 	if (typeof inc_votes !== 'number') {
 		return Promise.reject({ status: 400, msg: 'bad request' });
 	}
 
-	let updateQuery = `UPDATE articles SET votes = votes +$1 WHERE article_id = $2 RETURNING *`;
+	let updateQuery = `UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *`;
 	let queryValues = [inc_votes, article_id];
 
 	return db.query(updateQuery, queryValues).then(({ rows }) => {
